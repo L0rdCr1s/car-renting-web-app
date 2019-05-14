@@ -58,7 +58,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
-    is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -87,7 +86,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     mobile_contact = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(blank=True, null=True)
 
     # number of cars a user has ever booked
     booked_cars = models.IntegerField(default=0)

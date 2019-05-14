@@ -1,0 +1,117 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block authenticationpage %}
+<div class="row align-items-center">
+    <div class="col-12 col-md-6 offset-xl-2 offset-md-1 order-md-2 mb-5
+        mb-md-0">
+        <!-- Heading -->
+        <h1 class="display-4 text-center mb-3">
+            Sign up
+        </h1>
+        <!-- Subheading -->
+        <p class="text-muted text-center mb-5">
+            Free access to our dashboard.
+        </p>
+        <!-- Image -->
+        <div class="text-center">
+            <img src="{{ static_url }}assets/img/illustrations/happiness.svg"
+                alt="..." class="img-fluid">
+        </div>
+    </div>
+    <div class="col-12 col-md-5 col-xl-4 order-md-1 my-5">
+        <!-- Form -->
+        <form action='#' method='post'>
+
+            {% if with_status %}
+                <div class="alert {{ alert }} alert-dismissible fade show" role="alert">
+                    <strong>{{ title }}</strong> {{ info }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            {% endif %}
+
+            {% csrf_token %}
+            <!-- Email address -->
+            <div class="form-group">
+                <!-- Label -->
+                <label>
+                    Email Address
+                </label>
+                <!-- Input -->
+                <input type="email" name="email" maxlength="254" required=""
+                    id="id_email" class="form-control"
+                    placeholder="name@address.com">
+            </div>
+            <div class="form-group">
+                <!-- Label -->
+                <label>
+                    First name
+                </label>
+                <!-- Input -->
+                <input type="text" name="first_name" maxlength="60" required=""
+                    id="id_first_name" class="form-control" placeholder="first name">
+            </div>
+            <div class="form-group">
+                <!-- Label -->
+                <label>
+                    Last name
+                </label>
+                <!-- Input -->
+                <input type="text" name="last_name" maxlength="60" required=""
+                    id="id_last_name" class="form-control" placeholder="last name">
+            </div>
+            <!-- Password -->
+            <div class="form-group">
+                <!-- Label -->
+                <label>
+                    Password
+                </label>
+                <!-- Input group -->
+                <div class="input-group input-group-merge">
+                    <!-- Input -->
+                    <input type="password" name="password1" required=""
+                        id="id_password1" class="form-control
+                        form-control-appended" placeholder="Enter your password">
+                    <!-- Icon -->
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fe fe-eye"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <!-- Label -->
+                <label>
+                    Confirm Password
+                </label>
+                <!-- Input group -->
+                <div class="input-group input-group-merge">
+                    <!-- Input -->
+                    <input type="password" name="password2" required=""
+                        id="id_password2" class="form-control
+                        form-control-appended" placeholder="Confirm your password">
+                    <!-- Icon -->
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fe fe-eye"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Submit -->
+            <button class="btn btn-lg btn-block btn-dark mb-3">
+                Sign up
+            </button>
+            <!-- Link -->
+            <div class="text-center">
+                <small class="text-muted text-center">
+                    Already have an account? <a href="..login">Log in</a>.
+                </small>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

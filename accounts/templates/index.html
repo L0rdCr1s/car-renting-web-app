@@ -1,0 +1,19 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="The premier performance rally championship in Tanzania, and a number of 
+    regional rally championships from coast-to-coast">
+    {% include 'includes/csslinks.html' %}
+    <title>CRMS</title>
+  </head>
+  <body class="d-flex align-items-center bg-auth border-top border-top-2 border-primary" style="display: block;">
+    <div class="container">
+      {% block authenticationpage %}{% endblock %}
+    </div>
+    {% include 'includes/jslinks.html' %}
+  </body>
+</html>

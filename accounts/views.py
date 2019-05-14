@@ -1,23 +1,19 @@
-# from django.shortcuts import render, get_object_or_404
-# from . import forms
-# from django.shortcuts import render, redirect
-# from django.http import HttpResponse, HttpResponseRedirect
-# from django.contrib.auth import authenticate, login, logout, views
-# from django.core.mail import send_mail
-# import random
-# import datetime
-# from django.utils import timezone
-# from .models import *
-# from django.contrib.auth import logout
-# from django.contrib.auth import logout
-# from django.db.utils import IntegrityError
-# from django.conf import settings
+from django.shortcuts import render, get_object_or_404
+from . import forms
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout, views
+from django.core.mail import send_mail
+import random
+import datetime
+from django.utils import timezone
+from .models import *
+from django.contrib.auth import logout
+from django.contrib.auth import logout
+from django.db.utils import IntegrityError
+from django.conf import settings
 
-# # imports for iaa registration
-# from newsmedia.serializers import get_serializer, serialize_queryset
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from rest_framework import status
+
 
 
 # def show_auth_error(request, form, email, message, template, **kwargs):
@@ -71,31 +67,49 @@
 #         return redirect('../')
 
 
-# def user_login(request):
-#     fresh_form = forms.LoginForm()
-#     if request.method == 'POST':
-#         form = forms.LoginForm(request.POST)
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             user = authenticate(
-#                 username=data['email'], password=data['password'])
-#             if user is not None:
-#                 if user.is_active:
-#                     return get_user_direction(request, user, fresh_form, data)
-#                 else:
-#                     message = "account is disabled"
-#                     template = 'authentication/login.html'
-#                     return show_auth_error(request, fresh_form, data['email'], message, template, action=None)
-#             else:
-#                 message = "invalid username or password"
-#                 template = 'authentication/login.html'
-#                 return show_auth_error(request, fresh_form, data['email'], message, template, action=None)
-#         else:
-#             message = "please provide a clean username and a clean password"
-#             template = 'authentication/login.html'
-#             return show_auth_error(request, fresh_form, "", message, template, action=None)
-#     else:
-#         return render(request, 'authentication/login.html', {'form': fresh_form, 'type': 1})
+def user_login(request):
+    fresh_form = forms.LoginForm()
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(
+                username=data['email'], password=data['password'])
+            if user is not None:
+                if user.is_active:
+                    request.session['username'] = user.email
+                    login(request, user)
+                    return redirect('../home')
+                else:
+                    context = {
+                        'with_status' : True,
+                        'title': 'Failed!!',
+                        'info' : 'account disabled',
+                        'static_url': settings.STATIC_URL,
+                        'alert': 'alert-danger'
+                    }
+                    return render(request, 'login.html', context)
+            else:
+                context = {
+                    'with_status' : True,
+                    'title': 'Failed!!',
+                    'info' : 'invalid user name or password',
+                    'static_url': settings.STATIC_URL,
+                    'alert': 'alert-danger'
+                }
+                return render(request, 'login.html', context)
+        else:
+            context = {
+                'with_status' : True,
+                'title': 'Failed!!',
+                'info' : 'invaild data provided',
+                'static_url': settings.STATIC_URL,
+                'alert': 'alert-danger'
+            }
+            return render(request, 'login.html', context)
+    else:
+        static_url = settings.STATIC_URL
+        return render(request, 'login.html', {'form': fresh_form, 'static_url': static_url})
 
 
 # def user_logout(request):
@@ -106,64 +120,44 @@
 #         return redirect('..')
 
 
-# # this method registers news, media and results guys
-# def normal_registration(request):
-#     form = forms.RegisterForm()
-#     return render(request, 'registration/register.html', {"form": form})
+# this method registers news, media and results guys
 
 
-# def custom_user_register(request):
 
-#     if request.method == 'POST':
-#         form = forms.RegisterForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.set_password(form.cleaned_data['password2'])
-#             user.save()
+def user_registration(request):
 
-#             # creating activation key and save it together with the user
-#             # x is to differentiate between keys of unactivated users
-#             x = datetime.datetime.today()
-#             activation_key = random.randint(
-#                 1, 1000) + x.year + x.month + x.day + x.hour + x.minute + x.second
-#             key_expires = datetime.datetime.today() + datetime.timedelta(2)
+    if request.method == 'POST':
+        form = forms.RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = True
+            user.set_password(form.cleaned_data['password2'])
+            user.save()
 
-#             new_user = UserProfile(
-#                 user=user,
-#                 activation_key=activation_key,
-#                 activation_key_expirity=key_expires)
-#             new_user.save()
+            new_user = UserProfile(user=user)
+            new_user.save()
 
-#             email_subject = 'Your new site account confirmation'
-#             email_body = """Hello, %s, Your account is successfully created
-#             \n\nTo activate your account, click this link within 48
-#              hours:\n\nhttp://rally.co.tz/confirm/%s""" % (
-#                 form.cleaned_data['email'],
-#                 new_user.activation_key)
-#             send_mail(email_subject,
-#                       email_body,
-#                       'rallytanzaniaemailhost@gmail.com',
-#                       [form.cleaned_data['email']])
-
-#             context = {
-#                 'code': 200,
-#                 'status': ' success',
-#                 'error_message': 'Registration successfull',
-#                 'error_info': """Your account is not activated yet, we've you sent and email with activation 
-#                                   code to activate your account"""
-#             }
-#             return render(request, 'registration/activate_account.html', context)
-#         else:
-#             context = {
-#                 'code': 404,
-#                 'status': 'failed',
-#                 'error_message': 'Registration failed',
-#                 'error_info': """This error might be because of invalid data on the form, 
-#                                   or the user with the same information already exist"""
-#             }
-#             return render(request, 'registration/activate_account.html', context)
-#     else:
-#         return render(request, 'registration/guidance.html')
+            context = {
+                'with_status' : True,
+                'title': 'Success',
+                'info' : 'you have successfully registered',
+                'alert': 'alert-success',
+                'static_url': settings.STATIC_URL
+            }
+            return render(request, 'Registration/register.html', context)
+        else:
+            context = {
+                'with_status' : True,
+                'title': 'Failed',
+                'info' : 'Invalid data provided, please check your input',
+                'static_url': settings.STATIC_URL,
+                'alert': 'alert-danger'
+            }
+            return render(request, 'Registration/register.html', context)
+    else:
+        form = forms.RegisterForm()
+        static_url = settings.STATIC_URL
+        return render(request, 'Registration/register.html', {"form": form, 'static_url': static_url})
 
 
 # def activate_account(request):
