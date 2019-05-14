@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from time import strftime, gmtime
 from django.utils import timezone
 from django.conf import settings
-from ckeditor.fields import RichTextField
 from django.core.mail import send_mail
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
@@ -83,6 +82,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    mobile_contact = models.CharField(max_lenght=255)
-    location = models.CharField(max_lenght=255)
+    mobile_contact = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
     date_of_birth = models.DateTimeField()
+
+    # number of cars a user has ever booked
+    booked_cars = models.IntegerField(default=0)
+
+    # number of cars a user owns/registered as his in the system
+    owned_cars = models.IntegerField(default=0)
+
+    profiles = models.Manager()
+
+    def __str__(self):
+        return self.user.email
