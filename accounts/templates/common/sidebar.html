@@ -71,7 +71,11 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#sidebarDashboards">
+              <{% if view_type == 'notification' or view_type == 'car_details' %}
+                <a class="nav-link active" href="#sidebarDashboards">
+              {% else %}
+                <a class="nav-link" href="#sidebarDashboards">
+              {% endif %}
                 <i class="fe fe-bell"></i> Notifications
               </a>
             </li>

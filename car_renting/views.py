@@ -26,10 +26,22 @@ def car_details(request, id):
     except Car.DoesNotExist:
         return HttpResponseNotFound('Car not found')
 
+    # check if user has booked this car
+    booking = Booking.bookings.filter(car=car).filter(booking_user=request.user).filter(booking_status='requesting')
+    
+    
+    if booking is not None:
+        user_has_booked_it = True
+        print(user_has_booked_it)
+    else:
+        user_has_booked_it = False
+
+
     context = {
         'car': car,
         'media': settings.MEDIA_URL,
-        'view_type': 'car_details'
+        'view_type': 'car_details',
+        'user_has_booked_it': user_has_booked_it
     }
     
     return render(request, 'home.html', context)
@@ -89,4 +101,19 @@ def book_a_car(request, id):
         if car.user.id == request.user.id:
             return HttpResponseNotFound('you can not book your own car')
         
-        booking = Booking.create(car = car, booking_user = request.user )
+        booking = Booking.bookings.create(car = car, booking_user = request.user)
+        booking.save()
+        return redirect('/car_renting/car/%s'%(id))
+
+
+def cancel_request(request, id):
+
+    if request.user.is_authenticated:
+        try:
+            booking_request = Booking.bookings.get(car__id=id)
+            if booking_request.booking_user.id != request.user.id:
+                return HttpResponseNotFound('booking not found')
+            booking_request.delete()
+        except Booking.DoesNotExist:
+            return HttpResponseNotFound('booking record not found')
+    return redirect('/car_renting/car/%s'%(id))

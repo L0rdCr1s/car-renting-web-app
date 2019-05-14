@@ -77,16 +77,17 @@
                         </a>
                     {% endif %}
                 {% else %}
-                    <!-- Button -->
-              <a href="#!" class="btn btn-sm btn-dark mt-3">
-                <span class="fe fe-bookmark text-success mr-2"></span>Rent this
-                car
-              </a>
-              
-              
-              
-              
-              
+                    
+                    {% if user_has_booked_it %}
+                        <a href="{% url 'cancel_request' car.id %}" class="btn btn-sm btn-warning text-white mt-3">
+                            <span class="fe fe-x-circle mr-2"></span>cancel request
+                        </a>
+                    {% else %}
+                        <a href="{% url 'book_a_car' car.id %}" class="btn btn-sm btn-dark mt-3">
+                            <span class="fe fe-bookmark text-success mr-2"></span>Rent this
+                            car
+                        </a>
+                    {% endif %}
                 {% endif %}
               
             </div>
