@@ -20,6 +20,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts',
+    'car_renting',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

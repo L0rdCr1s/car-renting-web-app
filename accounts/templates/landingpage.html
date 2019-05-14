@@ -1,0 +1,112 @@
+{% load static %}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+
+            <!-- Files -->
+            <div class="card" data-toggle="lists"
+                data-lists-values="[&quot;name&quot;]">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h4 class="card-header-title">
+                                CARS FOR RENTING
+                            </h4>
+
+                        </div>
+                    </div> <!-- / .row -->
+                </div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <!-- Form -->
+                            <form>
+                                <div class="input-group input-group-flush
+                                    input-group-merge">
+                                    <input type="search" class="form-control
+                                        form-control-prepended search"
+                                        placeholder="Search">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <span class="fe fe-search"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div> <!-- / .row -->
+                </div>
+                <div class="card-body">
+
+                    <!-- List -->
+                    <ul class="list-group list-group-lg list-group-flush list my--4">
+                        {% for car in cars %}
+                            <li class="list-group-item px-0">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+
+                                        <!-- Avatar -->
+                                        <a href="#!" class="avatar avatar-xl">
+                                            <img src="{{ media }}{{car.cover_image}}"
+                                                alt="..."
+                                                class="avatar-img rounded">
+                                        </a>
+
+                                    </div>
+                                    <div class="col ml--2">
+
+                                        <!-- Title -->
+                                        <h4 class="card-title mb-1 name">
+                                            <a href="{% url 'car_details' car.id %}"> {{ car.name }} </a>
+                                        </h4>
+
+
+
+                                        <!-- Text -->
+                                        <p class="card-text small text-dark mb-1">
+                                            {{ car.price }} Tsh per hour
+                                        </p>
+                                        <!-- Text -->
+                                        <p class="card-text small text-dark mb-1">
+                                            <span class="fe fe-map-pin
+                                                text-warning"></span>
+                                            {{ car.location }}
+                                        </p>
+                                        <!-- Time -->
+                                        <p class="card-text small text-muted">
+                                            Owned by {{ car.user.first_name }} {{ car.user.last_name}}
+                                        </p>
+
+
+
+
+                                    </div>
+                                    <div class="col-auto">
+
+                                        <!-- Button -->
+                                        <a href="{% url 'car_details' car.id %}" class="btn btn-sm btn-dark
+                                            d-none
+                                            d-md-inline-block">
+                                            <span class="fe fe-eye text-success
+                                                mr-2"></span> See
+                                            more
+                                        </a>
+
+                                    </div>
+
+                                </div> 
+                            </li>
+                        {% endfor %}
+                        
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+</div>

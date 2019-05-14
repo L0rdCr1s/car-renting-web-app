@@ -87,6 +87,7 @@ class UserProfile(models.Model):
     mobile_contact = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     date_of_birth = models.DateField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to='users/images/%Y/%M/%d')
 
     # number of cars a user has ever booked
     booked_cars = models.IntegerField(default=0)

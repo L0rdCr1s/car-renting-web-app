@@ -3,9 +3,10 @@ from django.urls import path
 from django.conf.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
+from car_renting import views as car_renting_views
 
 urlpatterns = [
     path('', include('accounts.urls')),
-    # path('car_renting', include('homs.urls')),
-    path('admin/', admin.site.urls),
+    path('car_renting/', include('car_renting.urls')),
+    path('admin/', admin.site.urls),    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

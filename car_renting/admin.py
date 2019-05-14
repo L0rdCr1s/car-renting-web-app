@@ -1,3 +1,7 @@
 from django.contrib import admin
+from car_renting.models import Car
 
-# Register your models here.
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    list_display = ('user', 'is_available', 'name', 'registered_at', 'plate_number', 'price')
+

@@ -1,0 +1,641 @@
+{% load static %}
+
+{% comment %} <div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12 col-md-4">
+
+            <!-- Card -->
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-user text-success mr-2"></span>
+                                Full Name
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <small class="text-dark">
+                                {{ user.first_name }} {{ user.last_name}}
+                            </small>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+                    <!-- Divider -->
+                    <hr>
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-sunrise text-success mr-2"></span>
+                                Birthday
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <time class="small text-dark" datetime="1988-10-24">
+                                {{ user.userprofile.date_of_birth }}
+                            </time>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+                    <!-- Divider -->
+                    <hr>
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-watch text-success mr-2"></span>
+                                Joined
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <time class="small text-dark" datetime="2018-10-28">
+                                {{ user.date_joined }}
+                            </time>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-12 col-md-4">
+
+            <!-- Card -->
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-phone-call text-success
+                                    mr-2"></span> Mobile contact
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <small class="text-dark">
+                                {{ user.userprofile.mobile_contact }}
+                            </small>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+                    <!-- Divider -->
+                    <hr>
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-mail text-success mr-2"></span>
+                                Email
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <small class="text-dark">
+                                {{ user.email }}
+                            </small>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+                    <!-- Divider -->
+                    <hr>
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-map-pin text-success mr-2"></span>Location
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <time class="small text-dark" datetime="2018-10-28">
+                                <small class="text-dark">
+                                    {{ user.userprofile.location }}
+                                </small>
+                            </time>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-12 col-md-4">
+
+            <!-- Card -->
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-bookmark text-success mr-2"></span>
+                                Booked cars
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <small class="text-dark">
+                                {{ user.userprofile.booked_cars }} cars
+                            </small>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+                    <!-- Divider -->
+                    <hr>
+
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Title -->
+                            <h5 class="mb-0">
+                                <span class="fe fe-tag text-success mr-2"></span>
+                                Owns
+                            </h5>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <small class="text-dark">
+                                {{ user.userprofile.owned_cars }} cars
+                            </small>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+            <!-- Files -->
+            <div class="card" data-toggle="lists"
+                data-lists-values="[&quot;name&quot;]">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Nav -->
+                            <ul class="nav nav-tabs nav-overflow header-tabs">
+                                <li class="nav-item">
+                                    <a href="team-overview.html" class="nav-link
+                                        pt-0 pb-3 active">
+                                        <span class="fe fe-bookmark mr-2"></span>My
+                                        Bookings
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="team-projects.html" class="nav-link
+                                        pt-0 pb-3">
+                                        <span class="fe fe-compass mr-2"></span>My
+                                        Vehicles
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header mt-3">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <!-- Form -->
+                            <form>
+                                <div class="input-group input-group-flush
+                                    input-group-merge">
+                                    <input type="search" class="form-control
+                                        form-control-prepended search"
+                                        placeholder="Search">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <span class="fe fe-search"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div> <!-- / .row -->
+                </div>
+                <div class="card-body">
+
+                    <!-- List -->
+                    <ul class="list-group list-group-lg list-group-flush list
+                        my--4"><li class="list-group-item px-0">
+
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+
+                                    <!-- Avatar -->
+                                    <a href="#!" class="avatar avatar-xl">
+                                        <img src="assets/img/files/file-1.jpg"
+                                            alt="..."
+                                            class="avatar-img rounded">
+                                    </a>
+
+                                </div>
+                                <div class="col ml--2">
+
+                                    <!-- Title -->
+                                    <h4 class="card-title mb-1 name">
+                                        <a href="#">Crown Athletic</a>
+                                    </h4>
+
+
+
+                                    <!-- Text -->
+                                    <p class="card-text small text-dark mb-1">
+                                        30,000 Tsh per hour
+                                    </p>
+                                    <!-- Text -->
+                                    <p class="card-text small text-dark mb-1">
+                                        <span class="fe fe-map-pin
+                                            text-warning"></span>
+                                        Mbagala, Dar es salaam
+                                    </p>
+                                    <!-- Time -->
+                                    <p class="card-text small text-muted">
+                                        <i class="fe fe-watch mr-1"></i> Booked
+                                        at sat 17 april 2019
+                                    </p>
+
+
+
+
+                                </div>
+                                <div class="col-auto">
+
+                                    <!-- Button -->
+                                    <a href="#" class="btn btn-sm btn-dark
+                                        d-none
+                                        d-md-inline-block">
+                                        <span class="fe fe-eye text-success
+                                            mr-2"></span> See
+                                        more
+                                    </a>
+
+                                </div>
+
+                            </div> <!-- / .row -->
+
+                        </li>
+
+
+
+                    </div> <!-- / .row -->
+
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+
+</div> {% endcomment %}
+
+<div class="container-fluid mt-4">
+
+
+
+
+
+
+    <!-- Modal to add new car-->
+    <div class="modal fade" id="modalAddCar" tabindex="-1" role="dialog"
+        style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-card card" data-toggle="lists"
+                    data-lists-values="[&quot;name&quot;]">
+                    <div class="card-header">
+                        <h3>Add new car</h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <form class="mb-4">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <!-- First name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Car name
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <!-- Last name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Car Plate number
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control
+                                            mixed" placeholder="AAA-111"
+                                            id="plate-number">
+                                        <script>   </script>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Phone
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control
+                                            mb-3" placeholder="(___)___-____"
+                                            data-mask="(+000) 000-000-000"
+                                            autocomplete="off" maxlength="14">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Availability
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control
+                                            mb-3" placeholder="00:00-00:00 in 24
+                                            hours" data-mask="00:00-00:00"
+                                            autocomplete="off" maxlength="14">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Price
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control
+                                            mb-3" placeholder="00:00-00:00 in 24
+                                            hours" data-mask="0,000,000"
+                                            autocomplete="off" maxlength="14">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <!-- First name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Location
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <!-- First name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label>
+                                            Short description
+                                        </label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control
+                                            form-control-flush"
+                                            placeholder="Describe your service
+                                            here with not more than 400
+                                            characters">
+                                    </div>
+                                </div>
+
+
+
+                                <button type="submit" class="btn btn-sm
+                                    btn-success m-3">
+                                    <span class="fe fe-save mr-2"></span> add
+                                    car
+                                </button>
+                                <button type="button" class="btn btn-sm
+                                    btn-warning text-white mt-3 mb-3"
+                                    data-dismiss="modal">
+                                    <span class="fe fe-x-square mr-2"></span>
+                                    cancel
+                                </button>
+
+                            </div> <!-- / .row -->
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="row">
+        <div class="col-12">
+
+            <!-- Files -->
+            <div class="card" data-toggle="lists"
+                data-lists-values="[&quot;name&quot;]">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Nav -->
+                            <ul class="nav nav-tabs nav-overflow header-tabs">
+                                <li class="nav-item">
+                                    <a href="team-overview.html" class="nav-link
+                                        pt-0 pb-3">
+                                        <span class="fe fe-bookmark mr-2"></span>My
+                                        Bookings
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="team-projects.html" class="nav-link
+                                        pt-0 pb-3 active">
+                                        <span class="fe fe-compass mr-2"></span>My
+                                        Vehicles
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="col-auto">
+
+                            <!-- Button -->
+                            <a href="#" class="btn btn-sm btn-dark d-none
+                                d-md-inline-block"
+                                data-toggle="modal" data-target="#modalAddCar">
+                                <span class="fe fe-plus text-success mr-2"></span>
+                                add car
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header mt-3">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <!-- Form -->
+                            <form>
+                                <div class="input-group input-group-flush
+                                    input-group-merge">
+                                    <input type="search" class="form-control
+                                        form-control-prepended search"
+                                        placeholder="Search">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <span class="fe fe-search"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div> <!-- / .row -->
+                </div>
+                <div class="card-body">
+
+                    <!-- List -->
+                    <ul class="list-group list-group-lg list-group-flush list
+                        my--4"><li class="list-group-item px-0">
+
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+
+                                    <!-- Avatar -->
+                                    <a href="#!" class="avatar avatar-xl">
+                                        <img src="assets/img/files/file-1.jpg"
+                                            alt="..."
+                                            class="avatar-img rounded">
+                                    </a>
+
+                                </div>
+                                <div class="col ml--2">
+
+                                    <!-- Title -->
+                                    <h4 class="card-title mb-1 name">
+                                        <a href="#">Crown Athletic</a>
+                                    </h4>
+
+
+
+                                    <!-- Text -->
+                                    <p class="card-text small text-dark mb-1">
+                                        30,000 Tsh per hour
+                                    </p>
+                                    <!-- Text -->
+                                    <p class="card-text small text-dark mb-1">
+                                        <span class="fe fe-map-pin
+                                            text-warning"></span>
+                                        Mbagala, Dar es salaam
+                                    </p>
+                                    <!-- Time -->
+                                    <!-- Time -->
+                                    <p class="card-text small text-muted">
+                                        <i class="fe fe-watch mr-1"></i>
+                                        registered at sat 17 april 2019
+                                    </p>
+
+
+
+
+                                </div>
+                                <div class="col-auto">
+
+                                    <!-- Button -->
+                                    <a href="#" class="btn btn-sm btn-dark
+                                        d-none
+                                        d-md-inline-block">
+                                        <span class="fe fe-eye text-success
+                                            mr-2"></span> See
+                                        more
+                                    </a>
+
+                                </div>
+                                <div class="col-auto">
+
+                                    <!-- Button -->
+                                    <a href="#" class="btn btn-sm btn-danger
+                                        d-none
+                                        d-md-inline-block">
+                                        <span class="fe fe-trash-2 mr-2"></span>
+                                        Delete
+                                    </a>
+
+                                </div>
+                            </div> <!-- / .row -->
+
+                        </li>
+
+
+
+                    </div> <!-- / .row -->
+
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+</div>

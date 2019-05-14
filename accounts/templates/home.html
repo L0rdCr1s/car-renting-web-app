@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block homecontent %}
+  {% include 'common/sidebar.html' %}
+  <div class="main-content">
+      {% include 'common/navbar.html' %}
+      {% if view_type == 'home' %}
+          {% include 'landingpage.html' %}
+      {% elif view_type == 'car_details' %}
+        {% include 'cardetails.html' %}
+      {% else %}
+        {% include 'common/notfound.html' %}
+      {% endif %}
+  </div>
+{% endblock %}
