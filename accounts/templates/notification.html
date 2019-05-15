@@ -44,76 +44,96 @@
 
                     <!-- List -->
                     <ul class="list-group list-group-lg list-group-flush list
-                        my--4"><li class="list-group-item px-0">
+                        my--4">
+                        {% for notification in notifications %}
+                            <li class="list-group-item px-0">
 
-                            <div class="row align-items-center">
-                                <div class="col-auto">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
 
-                                    <!-- Avatar -->
-                                    <a href="#!" class="avatar avatar-xl">
-                                        <img
-                                            src="assets/img/avatars/profiles/avatar.jpg"
-                                            alt="..."
-                                            class="avatar-img rounded">
-                                    </a>
+                                        <!-- Avatar -->
+                                        <a href="#!" class="avatar avatar-xl">
+                                            <img
+                                                src="{{ media }}{{ notification.source.userprofile.profile_image }}"
+                                                alt="..."
+                                                class="avatar-img rounded">
+                                        </a>
 
-                                </div>
-                                <div class="col ml--2">
+                                    </div>
+                                    <div class="col ml--2">
 
-                                    <!-- Title -->
-                                    <h4 class="card-title mb-1 name">
-                                        <a href="#">Christopher shoo</a>
-                                    </h4>
-
-
-
-                                    <!-- Text -->
-                                    <p class="card-text small text-dark mb-1">
-                                        Hi! i am requesting to rent your car
-                                    </p>
-                                    <!-- Text -->
-                                    <p class="text-dark mb-1 small">
-                                        <span class="fe fe-phone-call
-                                            text-success mr-2"></span>
-                                        (+255) 738-223-987
-                                    </p>
-                                    <!-- Time -->
-                                    <p class="card-text small text-muted">
-                                        <i class="fe fe-watch mr-1"></i> sent at
-                                        sat 17 april 2019
-                                    </p>
+                                        <!-- Title -->
+                                        <h4 class="card-title mb-1 name">
+                                            <a href="#">
+                                                {{ notification.source.first_name }}
+                                                {{ notification.source.last_name }}
+                                            </a>
+                                        </h4>
 
 
 
+                                        <!-- Text -->
+                                        <p class="card-text small text-dark mb-1">
+                                            Hi! i am requesting to rent your car
+                                        </p>
+                                        <!-- Text -->
+                                        <p class="text-dark mb-1 small">
+                                            <span class="fe fe-phone-call
+                                                text-success mr-2"></span>
+                                            {{ notification.source.userprofile.mobile_contact }}
+                                        </p>
+                                        <!-- Time -->
+                                        <p class="card-text small text-muted">
+                                            <i class="fe fe-watch mr-1"></i> sent at
+                                            sat {{ notification.created_at }}
+                                        </p>
 
-                                </div>
-                                <div class="col-auto">
-                                    <span class="badge badge-soft-success"><span
-                                            class="fe fe-user-check text-success
-                                            mr-2"></span>Accepted</span>
-                                    <span class="badge badge-soft-danger"><span
-                                            class="fe fe-slash mr-2"></span>Rejected</span>
-                                    <span class="badge badge-soft-primary"><span
-                                            class="fe fe-loader mr-2"></span>Pending</span>
-                                    <!-- Button -->
-                                    <a href="#!" class="btn btn-sm btn-dark
-                                        d-none
-                                        d-md-inline-block">
-                                        <span class="fe fe-user-check
-                                            text-success mr-2"></span> Accept
-                                    </a>
-                                    <a href="#!" class="btn btn-sm btn-danger
-                                        d-none
-                                        d-md-inline-block">
-                                        <span class="fe fe-slash mr-2"></span>
-                                        Reject
-                                    </a>
 
-                                </div>
 
-                            </div> <!-- / .row -->
 
-                        </li>
+                                    </div>
+                                    <div class="col-auto">
+
+                                    {% if notification.target.id == request.user.id and notification.booking.booking_status == 'requesting'%}
+                                        <a href="{% url 'reply_booking' notification.id '1'%}" class="btn btn-sm btn-dark
+                                            d-none
+                                            d-md-inline-block">
+                                            <span class="fe fe-user-check
+                                                text-success mr-2"></span> Accept
+                                        </a>
+                                        <a href="{% url 'reply_booking' notification.id '0'%}" class="btn btn-sm btn-danger
+                                            d-none
+                                            d-md-inline-block">
+                                            <span class="fe fe-slash mr-2"></span>
+                                            Reject
+                                        </a>
+                                    {% else %}
+                                        {% if notification.booking.booking_status == 'accepted' %}
+                                            <span class="badge badge-soft-success"><span
+                                                class="fe fe-user-check text-success mr-2"></span>Accepted</span>
+                                        {% elif notification.booking.booking_status == 'rejected'%}
+                                            <span class="badge badge-soft-danger"><span
+                                                class="fe fe-slash mr-2"></span>Rejected</span>
+                                        {% elif notification.booking.booking_status == 'canceled'%}
+                                            <span class="badge badge-soft-warning"><span
+                                                class="fe fe-slash mr-2"></span>Canceled</span>
+                                        {% else %}
+                                            <span class="badge badge-soft-primary"><span
+                                                class="fe fe-loader mr-2"></span>Pending</span>
+                                        {% endif %}
+                                    {% endif %}
+
+                                        
+                                        <!-- Button -->
+                                        
+
+                                    </div>
+
+                                </div> <!-- / .row -->
+
+                            </li>
+                        {% endfor %}
+                        
 
 
 

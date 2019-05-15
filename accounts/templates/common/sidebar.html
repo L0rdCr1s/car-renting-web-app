@@ -10,7 +10,7 @@
         </button>
 
         <!-- Brand -->
-        <a href="#" class="w-50 ml-5 mt-4">
+        <a href="#" class="avatar avatar-xl w-50 ml-5 mt-4">
           <img src="{{ media }}{{request.user.userprofile.profile_image}}" class="avatar-img rounded-circle" alt="...">
         </a>
 
@@ -63,29 +63,37 @@
           <ul class="navbar-nav mt-5">
             <li class="nav-item">
               {% if view_type == 'home' or view_type == 'car_details' %}
-                <a class="nav-link active" href="#sidebarDashboards">
+                <a class="nav-link active" href=" {% url 'home' %} ">
               {% else %}
-                <a class="nav-link" href="#sidebarDashboards">
+                <a class="nav-link" href=" {% url 'home' %} ">
               {% endif %}
                 <i class="fe fe-home"></i> Home
               </a>
             </li>
             <li class="nav-item">
-              <{% if view_type == 'notification' or view_type == 'car_details' %}
-                <a class="nav-link active" href="#sidebarDashboards">
+              {% if view_type == 'notifications' %}
+                <a class="nav-link active" href="  {% url 'notifications' %} ">
               {% else %}
-                <a class="nav-link" href="#sidebarDashboards">
+                <a class="nav-link" href="  {% url 'notifications' %} ">
               {% endif %}
                 <i class="fe fe-bell"></i> Notifications
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#sidebarDashboards">
+              {% if view_type == 'account' %}
+                <a class="nav-link active" href="{% url 'account'  '0' %}">
+              {% else %}
+                <a class="nav-link" href="{% url 'account' '0' %}">
+              {% endif %}
                 <i class="fe fe-grid"></i> Account
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#sidebarDashboards">
+              {% if view_type == 'profile' %}
+                <a class="nav-link active" href="{% url 'user_profile' user.id '0' %}">
+              {% else %}
+                <a class="nav-link" href="{% url 'user_profile' user.id '0' %}">
+              {% endif %}
                 <i class="fe fe-user"></i> My Profile
               </a>
             </li>

@@ -19,7 +19,7 @@ def user_login(request):
                 if user.is_active:
                     request.session['username'] = user.email
                     login(request, user)
-                    return redirect('../home')
+                    return redirect('/car_renting/home')
                 else:
                     context = {
                         'with_status' : True,
@@ -55,9 +55,9 @@ def user_login(request):
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)
-        return redirect('../login')
+        return redirect('/login')
     else:
-        return redirect('../login')
+        return redirect('/login')
 
 def user_registration(request):
 

@@ -2,230 +2,9 @@
 
 <div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-12 col-md-4">
-
-            <!-- Card -->
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-user text-success mr-2"></span>
-                                Full Name
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <small class="text-dark">
-                                {{ user.first_name }} {{ user.last_name}}
-                            </small>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-                    <!-- Divider -->
-                    <hr>
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-sunrise text-success mr-2"></span>
-                                Birthday
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <time class="small text-dark" datetime="1988-10-24">
-                                {{ user.userprofile.date_of_birth }}
-                            </time>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-                    <!-- Divider -->
-                    <hr>
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-watch text-success mr-2"></span>
-                                Joined
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <time class="small text-dark" datetime="2018-10-28">
-                                {{ user.date_joined }}
-                            </time>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-        </div>
-        <div class="col-12 col-md-4">
-
-            <!-- Card -->
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-phone-call text-success
-                                    mr-2"></span> Mobile contact
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <small class="text-dark">
-                                {{ user.userprofile.mobile_contact }}
-                            </small>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-                    <!-- Divider -->
-                    <hr>
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-mail text-success mr-2"></span>
-                                Email
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <small class="text-dark">
-                                {{ user.email }}
-                            </small>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-                    <!-- Divider -->
-                    <hr>
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-map-pin text-success mr-2"></span>Location
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <time class="small text-dark" datetime="2018-10-28">
-                                <small class="text-dark">
-                                    {{ user.userprofile.location }}
-                                </small>
-                            </time>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-        </div>
-        <div class="col-12 col-md-4">
-
-            <!-- Card -->
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-bookmark text-success mr-2"></span>
-                                Booked cars
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <small class="text-dark">
-                                {{ user.userprofile.booked_cars }} cars
-                            </small>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-                    <!-- Divider -->
-                    <hr>
-
-                    <div class="row align-items-center">
-                        <div class="col">
-
-                            <!-- Title -->
-                            <h5 class="mb-0">
-                                <span class="fe fe-tag text-success mr-2"></span>
-                                Owns
-                            </h5>
-
-                        </div>
-                        <div class="col-auto">
-
-                            <small class="text-dark">
-                                {{ user.userprofile.owned_cars }} cars
-                            </small>
-
-                        </div>
-                    </div> <!-- / .row -->
-
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>
-    <div class="row">
         <div class="col-12">
 
-           
-
-            {% if section_type == 1 %}
+{% if section_type == 1 %}
                 <!-- Files -->
                 <div class="card" data-toggle="lists"
                     data-lists-values="[&quot;name&quot;]">
@@ -236,14 +15,14 @@
                                 <!-- Nav -->
                                 <ul class="nav nav-tabs nav-overflow header-tabs">
                                     <li class="nav-item">
-                                        <a href="{% url 'user_profile' user.id '0' %}" class="nav-link
+                                        <a href="{% url 'account'  '0' %}" class="nav-link
                                             pt-0 pb-3">
                                             <span class="fe fe-bookmark mr-2"></span>My
                                             Bookings
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{% url 'user_profile' user.id '1' %}" class="nav-link
+                                        <a href="{% url 'account'  '1' %}" class="nav-link
                                             pt-0 pb-3 active">
                                             <span class="fe fe-compass mr-2"></span>My
                                             Vehicles
@@ -354,14 +133,14 @@
                                 <!-- Nav -->
                                 <ul class="nav nav-tabs nav-overflow header-tabs">
                                     <li class="nav-item">
-                                        <a href="{% url 'user_profile' user.id '0' %}" class="nav-link
+                                        <a href="{% url 'account'  '0' %}" class="nav-link
                                             pt-0 pb-3 active">
                                             <span class="fe fe-bookmark mr-2"></span>My
                                             Bookings
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{% url 'user_profile' user.id '1' %}" class="nav-link
+                                        <a href="{% url 'account'  '1' %}" class="nav-link
                                             pt-0 pb-3">
                                             <span class="fe fe-compass mr-2"></span>My
                                             Vehicles
@@ -462,8 +241,7 @@
 
                 </div>
             {% endif %}
+            </div>
+
         </div>
-
     </div>
-
-</div> 

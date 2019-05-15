@@ -21,14 +21,33 @@ class Car(models.Model):
 
 class Booking(models.Model):
 
-    BOOKING_STATUSES = [('requesting', 'requesting', ), ('accepted', 'accepted'), ('rejected', 'rejected')]
+    BOOKING_STATUSES = [
+                        ('requesting', 'requesting', ),
+                         ('accepted', 'accepted'), 
+                         ('rejected', 'rejected'),
+                         ('canceled', 'canceled')
+                         ]
 
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='bookings')
     booking_status = models.CharField(choices=BOOKING_STATUSES, default='requesting', max_length=30)
-    booking_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    booking_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, unique=False)
     booked_at = models.DateTimeField(auto_now_add=True)
 
     bookings = models.Manager()
 
     def __str__(self):
         return self.car.name
+
+class Notification(models.Model):
+
+    target = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    source = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=2, related_name="source")
+    created_at = models.DateTimeField(auto_now_add=True)
+    message = models.CharField(max_length=300)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="notifications")
+    is_viewed = models.BooleanField(default=False)
+
+    notifications = models.Manager()
+
+    def __str__(self):
+        return self.message

@@ -5,12 +5,25 @@
   {% include 'common/sidebar.html' %}
   <div class="main-content">
       {% include 'common/navbar.html' %}
+
       {% if view_type == 'home' %}
           {% include 'landingpage.html' %}
+
       {% elif view_type == 'car_details' %}
         {% include 'cardetails.html' %}
+
+      {% elif view_type == 'notifications' %}
+        {% include 'notification.html' %}
+
+      {% elif view_type == 'profile' %}
+        {% include 'userprofile.html' %}
+      
+      {% elif view_type == 'account' %}
+        {% include 'account.html' %}
+
       {% else %}
         {% include 'common/notfound.html' %}
+
       {% endif %}
   </div>
 {% endblock %}
