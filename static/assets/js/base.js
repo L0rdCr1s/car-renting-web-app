@@ -1,1 +1,1 @@
-$('#plate-number').mask('AAA-000');
+$('#id_plate_number').mask('AAA-000');

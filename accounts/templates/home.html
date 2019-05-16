@@ -21,9 +21,9 @@
       {% elif view_type == 'account' %}
         {% include 'account.html' %}
 
-      {% else %}
+      {% elif view_type == 'page_not_found' %}
         {% include 'common/notfound.html' %}
-
+        
       {% endif %}
   </div>
 {% endblock %}

@@ -44,4 +44,4 @@ admin.site.register(UserProfile, ProfileAdmin)
 
 ## admin page customizations
 admin.sites.AdminSite.site_header = "Car renting System administration"
-admin.sites.AdminSite.site_title = "Admin Page"
+admin.sites.AdminSite.site_title = "Car Renting"

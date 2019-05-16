@@ -31,6 +31,13 @@
                                 </ul>
 
                             </div>
+                            <div class="col-auto">
+                                <!-- Button -->
+                                <a href="#" class="btn btn-sm btn-dark d-none d-md-inline-block"
+                                data-toggle="modal" data-target="#modalAddCar">
+                                <span class="fe fe-plus text-success mr-2"></span> add car
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="card-header mt-3">
@@ -58,8 +65,15 @@
                     <div class="card-body">
 
                         <!-- List -->
-                        <ul class="list-group list-group-lg list-group-flush list
-                            my--4">
+                        <ul class="list-group list-group-lg list-group-flush listmy--4">
+                        {% if with_status %}
+                            <div class="alert {{ alert }} alert-dismissible fade show" role="alert">
+                                <strong>{{ title }}</strong> {{ info }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                        {% endif %}
                             {% for car in user_vehicles %}
                                 <li class="list-group-item px-0">
                                     <div class="row align-items-center">
@@ -149,6 +163,7 @@
                                 </ul>
 
                             </div>
+                            
                         </div>
                     </div>
                     <div class="card-header mt-3">
@@ -245,3 +260,120 @@
 
         </div>
     </div>
+
+
+
+    <!-- Modal to add new car -->
+
+<div class="modal fade" id="modalAddCar" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-card card" data-toggle="lists" data-lists-values="[&quot;name&quot;]">
+            <div class="card-header">
+            <h3>Add new car</h3>
+            </div>
+            
+            <div class="card-body">
+                <form class="mb-4" enctype="multipart/form-data" action="" method="post" id="car_form" novalidate="">
+                    {% csrf_token %}
+                    <div class="row">
+                    <div class="col-12 mb-3">
+                        <!-- First name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Cover Photo
+                        </label>
+                        <!-- Input -->
+                        <input type="file" class="form-control" style="border: none" 
+                            name="cover_image" accept="image/*" required="" id="id_cover_image">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <!-- First name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Car name
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control" 
+                            name="name" maxlength="255" required="" id="id_name">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <!-- Last name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Car Plate number
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control mixed" placeholder="AAA-111" 
+                            name="plate_number" maxlength="8" required="" id="id_plate_number">
+                        <script>   </script>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Availability
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control mb-3" placeholder="00:00-00:00  in 24 hours" data-mask="00:00-00:00"
+                            autocomplete="off" maxlength="14" name="availability" required="" id="id_availability">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Price
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control mb-3" placeholder="00:00-00:00  in 24 hours" data-mask="0,000,000"
+                            autocomplete="off" maxlength="14" name="price" required="" id="id_price">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <!-- First name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Location
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control" name="location" maxlength="255" required="" id="id_location">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <!-- First name -->
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                            Short description
+                            </label>
+                            <!-- Input -->
+                            <input type="text" class="form-control form-control-flush" name="description" maxlength="300" 
+                            required="" id="id_description" placeholder="Describe your service here with not more than 400 characters">
+                        </div>
+                        </div>
+
+                        
+
+                        <button type="submit" class="btn btn-sm btn-success m-3">
+                            <span class="fe fe-save mr-2"></span> add car
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning text-white mt-3 mb-3" data-dismiss="modal">
+                            <span class="fe fe-x-square mr-2"></span> cancel
+                        </button>
+                    
+                    </div> <!-- / .row -->
+                </form>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

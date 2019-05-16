@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from .models import *
+from car_renting.models import Car
 
 
 class RegisterForm(forms.ModelForm):
@@ -107,3 +108,22 @@ class Newpassword(forms.ModelForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords don't match")
         return password2
+
+
+#############   CAR RENTING APP FORMS ############
+# these forms are declared here because i am curently working on a dead line
+
+class NewCarForm(forms.ModelForm):
+    
+    class Meta:
+        model = Car
+        fields = ()
+
+    def save(self, user_id, commit=True):
+        car = super(NewCarForm, self).save(commit=False)
+        owner = CustomUser.users.get(pk=user_id)
+        car.user = owner
+        
+        if commit:
+            car.save()
+        return car
