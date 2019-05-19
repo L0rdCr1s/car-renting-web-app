@@ -41,7 +41,7 @@
               <!-- Content -->
               <p class="text-dark mb-1">
                 <span class="fe fe-user text-dark mr-2"></span>
-                {{ car.user.first_name }} {{ car.user.last_name }}
+                owned by {{ car.user.first_name }} {{ car.user.last_name }}
               </p>
               <p class="text-dark mb-1">
                 <span class="fe fe-watch text-dark mr-2"></span>available from
@@ -82,11 +82,14 @@
                         <a href="{% url 'cancel_request' car.id %}" class="btn btn-sm btn-warning text-white mt-3">
                             <span class="fe fe-x-circle mr-2"></span>cancel request
                         </a>
-                    {% else %}
+                    {% elif car.is_available %}
                         <a href="{% url 'book_a_car' car.id %}" class="btn btn-sm btn-dark mt-3">
                             <span class="fe fe-bookmark text-success mr-2"></span>Rent this
                             car
                         </a>
+                    {% else %}
+                        <span class="badge badge-soft-info mt-4"><span
+                              class="fe fe-alert-circle text-info mr-2"></span>this car is booked</span>
                     {% endif %}
                 {% endif %}
               

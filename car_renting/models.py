@@ -44,10 +44,22 @@ class Notification(models.Model):
     source = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=2, related_name="source")
     created_at = models.DateTimeField(auto_now_add=True)
     message = models.CharField(max_length=300)
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="notifications")
+    booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, related_name="notifications", null=True)
     is_viewed = models.BooleanField(default=False)
 
     notifications = models.Manager()
 
     def __str__(self):
         return self.message
+
+class BookingHistory(models.Model):
+
+    car = models.ForeignKey(Car, related_name='booking_history', on_delete=models.CASCADE, unique=False)
+    user = models.ForeignKey(CustomUser, related_name='renters', on_delete=models.CASCADE, unique=False)
+    status = models.CharField(max_length=255, default="canceled")
+    booked_at = models.DateTimeField(auto_now_add=True)
+
+    history = models.Manager()
+
+    def __str__(self):
+        return self.user.get_full_name()

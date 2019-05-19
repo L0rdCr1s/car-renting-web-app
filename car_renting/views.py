@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from accounts.models import CustomUser, UserProfile
-from car_renting.models import Car, Booking, Notification
+from car_renting.models import Car, Booking, Notification, BookingHistory
 from django.conf import settings
 from django.http import HttpResponseNotFound
 import random
@@ -92,6 +92,7 @@ def delete_car(request, id):
     return render(request, 'home.html', context)
 
 
+# set the car available or unavailable for booking
 def change_car_status(request, id):
 
     try:
@@ -126,19 +127,20 @@ def book_a_car(request, id):
         if car.user.id == request.user.id:
             return HttpResponseNotFound('you can not book your own car')
         
-        if Booking.bookings.filter(car=car, booking_user=request.user).exists():
-            booking = Booking.bookings.get(car=car)
-            booking.booking_status = 'requesting'
-        else:
-            booking = Booking.bookings.create(car = car, booking_user = request.user)
+        # if Booking.bookings.filter(car=car, booking_user=request.user).exists():
+        #     booking = Booking.bookings.get(car=car)
+        #     booking.booking_status = 'requesting'
+        # else:
+        #     booking = Booking.bookings.create(car = car, booking_user = request.user)
 
+        booking = Booking.bookings.create(car = car, booking_user = request.user)
         booking.save()
 
         # notify owner of the car for this booking
         notification = Notification.notifications.create(
             target = car.user,
             source = request.user,
-            message = "hi!! i am requesting to rent your car",
+            message = "Hello!! is requesting to rent your car",
             booking = booking
         )
         notification.save()
@@ -152,11 +154,17 @@ def cancel_request(request, id):
 
     if request.user.is_authenticated:
         try:
-            booking_request = Booking.bookings.get(car__id=id, booking_user=request.user, booking_status='requesting')
+            booking_request = Booking.bookings.get(car__id=id, booking_user=request.user)
             if booking_request.booking_user.id != request.user.id:
                 return HttpResponseNotFound('booking not found')
-            booking_request.booking_status = 'canceled'
-            booking_request.save()
+            # booking_request.booking_status = 'canceled'
+            # booking_request.save()
+
+            # record this event and then delete it in the booking list
+            booking_history = BookingHistory.history.create(car=booking_request.car, user=booking_request.booking_user)
+            booking_history.save()
+
+            booking_request.delete()
             return redirect('/car_renting/car/%s'%(id))
             
         except Booking.DoesNotExist:
@@ -196,29 +204,48 @@ def reply_booking(request, id, action):
 
                 # change the status of the booking request
                 if action == 1:
-                    notification.booking.booking_status = "accepted"
-                    message = 'hi %s your request has been accepted by %s'%(notification.target, notification.source)
-                    notification.booking.save()
+                    message = "%s has accepted your request for %s"%(request.user.get_full_name(), notification.booking.car.name)
 
                     # make the car unavailable after accepting a request
                     notification.booking.car.is_available = False
                     notification.booking.car.save()
 
+                    # record this event and then delete it in the booking list
+                    booking_history = BookingHistory.history.create(
+                                car=notification.booking.car, 
+                                user=notification.booking.booking_user, 
+                                status="accepted"
+                            )
+                    booking_history.save()
+                    notification.save()
+
                 elif action == 0:
-                    notification.booking.booking_status = "rejected"
-                    notification.booking.save()
+                    message = "%s has rejected your request for %s"%(request.user.get_full_name(), notification.booking.car.name)
+
+                    # record this event and then delete it in the booking list
+                    booking_history = BookingHistory.history.create(
+                                car=notification.booking.car, 
+                                user=notification.booking.booking_user, 
+                                status="rejected"
+                            )
+                    booking_history.save() 
+                    notification.save()
+
                 else:
                     return HttpResponseNotFound('invalid action provided')
-                notification.save()
 
                 # notify a person who sent the request for this reply
                 repy_notification = Notification.notifications.create(
                     target = notification.source,
                     source = request.user,
-                    message = "hi!! %s has replied to your request"%(request.user.get_full_name()),
+                    message = message,
                     booking = notification.booking
                 )
                 repy_notification.save()
+
+                # delete the event from booking list to allow another entry with the same entity 
+                # to be saved without intergrity error
+                Booking.bookings.get(pk=notification.booking.id).delete()
 
                 return redirect('/car_renting/notifications')
                 
@@ -240,6 +267,7 @@ def get_user_profile(request, id, section_type):
         navbar_notifications = notifications.filter(is_viewed=False)
 
         user_bookings = Booking.bookings.filter(booking_user=user)
+        user_booking_history = BookingHistory.history.filter(user=user)
         user_vehicles = Car.cars.filter(user=user)
 
         context = {
@@ -249,6 +277,7 @@ def get_user_profile(request, id, section_type):
             'notifications': notifications,
             'user': user,
             'user_bookings': user_bookings,
+            'user_booking_history': user_booking_history,
             'user_vehicles': user_vehicles,
             'section_type': section_type
         }
@@ -262,8 +291,10 @@ def show_my_account(request, section_type):
 
         notifications = Notification.notifications.filter(target__id=request.user.id).order_by('-created_at')
         navbar_notifications = notifications.filter(is_viewed=False)
+
         user_bookings = Booking.bookings.filter(booking_user=request.user)
         user_vehicles = Car.cars.filter(user=request.user)
+        user_booking_history = BookingHistory.history.filter(user=request.user)
 
         context = {
             'view_type': 'account',
@@ -272,6 +303,7 @@ def show_my_account(request, section_type):
             'notifications': notifications,
             'user_bookings': user_bookings,
             'user_vehicles': user_vehicles,
+            'user_booking_history': user_booking_history,
             'section_type': section_type,
         }
 

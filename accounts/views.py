@@ -49,6 +49,11 @@ def user_login(request):
             return render(request, 'login.html', context)
     else:
         static_url = settings.STATIC_URL
+
+        # if user is authenticated bypass the login page
+        if request.user.is_authenticated:
+            return redirect('/car_renting/home')
+            
         return render(request, 'login.html', {'form': fresh_form, 'static_url': static_url})
 
 

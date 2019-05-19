@@ -108,7 +108,7 @@
                                             </p>
                                             <!-- Time -->
                                             <p class="card-text small text-muted">
-                                                Owned by {{ car.user.first_name }} {{ car.user.last_name}}
+                                                <span class="fe fe-award text-dark mr-2"></span> registered at {{ car.registered_at }}
                                             </p>
 
 
@@ -227,7 +227,7 @@
                                             </p>
                                             <!-- Time -->
                                             <p class="card-text small text-muted">
-                                                Owned by {{ booking.car.user.first_name }} {{ booking.car.user.last_name}}
+                                               <span class="fe fe-watch text-dark mr-2"></span> booked at {{ booking.booked_at }}
                                             </p>
 
 
@@ -245,6 +245,63 @@
                                                 more
                                             </a>
 
+                                        </div>
+
+                                    </div> 
+                                </li>
+                            {% endfor %}
+                            {% for history in user_booking_history %}
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+
+                                            <!-- Avatar -->
+                                            <a href="#!" class="avatar avatar-xl">
+                                                <img src="{{ media }}{{ history.car.cover_image}}"
+                                                    alt="..."
+                                                    class="avatar-img rounded">
+                                            </a>
+
+                                        </div>
+                                        <div class="col ml--2">
+
+                                            <!-- Title -->
+                                            <h4 class="card-title mb-1 name">
+                                                <a href="{% url 'car_details' history.car.id %}"> {{ history.car.name }} </a>
+                                            </h4>
+
+
+
+                                            <!-- Text -->
+                                            <p class="card-text small text-dark mb-1">
+                                                {{ history.car.price }} Tsh per hour
+                                            </p>
+                                            <!-- Text -->
+                                            <p class="card-text small text-dark mb-1">
+                                                <span class="fe fe-map-pin
+                                                    text-warning"></span>
+                                                {{ history.car.location }}
+                                            </p>
+                                            <!-- Time -->
+                                            <p class="card-text small text-muted">
+                                              <span class="fe fe-watch text-dark mr-2"></span>  booked at {{ history.booked_at }}
+                                            </p>
+
+
+
+
+                                        </div>
+                                        <div class="col-auto">
+                                            {% if history.status == 'canceled' %}
+                                                <span class="badge badge-soft-warning"><span
+                                                class="fe fe-slash mr-2"></span>Canceled</span>
+                                            {% elif history.status == 'rejected'%}
+                                                <span class="badge badge-soft-danger"><span
+                                                class="fe fe-slash mr-2"></span>Rejected</span>
+                                            {% else %}
+                                                <span class="badge badge-soft-success"><span
+                                                class="fe fe-user-check text-success mr-2"></span>Accepted</span>
+                                            {% endif %}
                                         </div>
 
                                     </div> 
