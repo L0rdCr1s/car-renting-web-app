@@ -127,11 +127,6 @@ def book_a_car(request, id):
         if car.user.id == request.user.id:
             return HttpResponseNotFound('you can not book your own car')
         
-        # if Booking.bookings.filter(car=car, booking_user=request.user).exists():
-        #     booking = Booking.bookings.get(car=car)
-        #     booking.booking_status = 'requesting'
-        # else:
-        #     booking = Booking.bookings.create(car = car, booking_user = request.user)
 
         booking = Booking.bookings.create(car = car, booking_user = request.user)
         booking.save()
@@ -157,9 +152,7 @@ def cancel_request(request, id):
             booking_request = Booking.bookings.get(car__id=id, booking_user=request.user)
             if booking_request.booking_user.id != request.user.id:
                 return HttpResponseNotFound('booking not found')
-            # booking_request.booking_status = 'canceled'
-            # booking_request.save()
-
+                
             # record this event and then delete it in the booking list
             booking_history = BookingHistory.history.create(car=booking_request.car, user=booking_request.booking_user)
             booking_history.save()
