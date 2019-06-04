@@ -1,5 +1,5 @@
 from django.contrib import admin
-from car_renting.models import Car, Booking, Notification, BookingHistory
+from car_renting.models import Car, Booking, Notification, BookingHistory, CarImage
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
@@ -16,3 +16,8 @@ class NotificationAdmin(admin.ModelAdmin):
 @admin.register(BookingHistory)
 class BookingHistoryAdmin(admin.ModelAdmin):
     list_display = ('car', 'user', 'booked_at')
+
+@admin.register(CarImage)
+class CarImageAdmin(admin.ModelAdmin):
+    list_display = ('car', )
+

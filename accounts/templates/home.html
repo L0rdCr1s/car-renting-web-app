@@ -26,6 +26,9 @@
 
       {% elif view_type == 'page_not_found' %}
         {% include 'common/notfound.html' %}
+      
+      {% elif view_type == 'payments' %}
+        {% include 'payments.html' %}
         
       {% endif %}
   </div>

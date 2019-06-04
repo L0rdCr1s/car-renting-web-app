@@ -95,14 +95,79 @@
               
             </div>
           </div>
+        
           <!-- / .row -->
         </div>
       </div>
     </div>
   </div>
+  <div class="row align-items-center">
+    <div class="col-12">
+        <div class="card box-card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col">
+                <h2 class="pt-3">{{ car.name }} images</h2>
+              </div>
+              <div class="col-auto">
+                {% if car.user.id == request.user.id %}
+                  <a href="#" class="btn btn-sm btn-dark d-none d-md-inline-block mt-3" data-toggle="modal" data-target="#modalAddCarImage">
+                    <span class="fe fe-plus text-success mr-2"></span> add image
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+              <div class="row">
+                  {% for image in car.car_images.all %}
+                      <div class="col-4 pl-2 pr-2">
+                        <div class="mt-3" data-toggle="modal" data-target="#car-image{{ image.id }}" style="
+                              min-width: 20vw;
+                              height: 16.5vw;
+                              background: url('{{  media }}{{ image.image }}');
+                              background-size: cover;
+                          ">
+                          <div class="col-auto" style="bottom: 0; position: absolute; right: 0; padding-right: 0.4rem">
+                            {% if car.user.id == request.user.id%}
+                              <!-- Button -->
+                              <a href="{% url 'delete_car_image' image.id car.id %}" class="btn btn-sm btn-danger">
+                                  <span class="fe fe-trash-2"></span>
+                              </a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="modal fade" id="car-image{{ image.id }}" tabindex="999" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{{  media }}{{ image.image }}" class="img-fluid" >  
+                                </div>
+                                <div class="modal-footer">
+                                  <div class="col-auto" >
+                                      {% if car.user.id == request.user.id%}
+                                        <!-- Button -->
+                                        <a href="{% url 'delete_car_image' image.id car.id %}" class="btn btn-sm btn-danger">
+                                            <span class="fe fe-trash-2"></span>
+                                        </a>
+                                      {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  {% endfor %}
+              </div>
+          </div>
+
+        </div>
+    </div>
+  </div>
 </div>
 
-<div class="modal fade" id="modalEditCar" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+{% if car.user.id == request.user.id %}
+  <div class="modal fade" id="modalEditCar" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-card card" data-toggle="lists" data-lists-values="[&quot;name&quot;]">
@@ -216,3 +281,50 @@
         </div>
     </div>
 </div>
+{% endif %}
+
+{% if car.user.id == request.user.id %}
+  <div class="modal fade" id="modalAddCarImage" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-card card" data-toggle="lists" data-lists-values="[&quot;name&quot;]">
+            <div class="card-header">
+            <h3>Add new car</h3>
+            </div>
+            
+            <div class="card-body">
+                <form class="mb-4" enctype="multipart/form-data" action="{% url 'add_car_image' car.id %}" method="post" novalidate="">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-12 ">
+                          <!-- First name -->
+                          <div class="form-group">
+                          <!-- Label -->
+                          <label>
+                              Image
+                          </label>
+                          <!-- Input -->
+                          <input type="file" class="form-control" style="border: none" 
+                              name="image" accept="image/*" required="" id="id_image">
+                      </div>
+                    </div>
+          
+                       
+                        
+
+                        <button type="submit" class="btn btn-sm btn-success m-3">
+                            <span class="fe fe-save mr-2"></span> add car
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning text-white mt-3 mb-3" data-dismiss="modal">
+                            <span class="fe fe-x-square mr-2"></span> cancel
+                        </button>
+                    
+                    </div> <!-- / .row -->
+                </form>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endif %}

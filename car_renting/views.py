@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import CustomUser, UserProfile
-from car_renting.models import Car, Booking, Notification, BookingHistory
+from car_renting.models import Car, Booking, Notification, BookingHistory, CarImage
 from django.http import HttpResponseNotFound
 import random
 from accounts.forms import NewCarForm
@@ -128,7 +128,11 @@ def delete_car(request, id):
         
     return render(request, 'home.html', context)
 
+def delete_car_image(request, id, car_id):
 
+    if request.user.is_authenticated:
+        CarImage.images.get(pk=id).delete()
+        return redirect('/car_renting/car/%s'%(car_id))
 # set the car available or unavailable for booking
 def change_car_status(request, id):
 
@@ -381,3 +385,40 @@ def show_my_account(request, section_type):
                 return render(request, 'home.html', context)
     else:
         return redirect('/login')
+
+def get_payments(request, id):
+
+    if request.user.is_authenticated:
+        if request.method == "GET":
+
+            booking = get_object_or_404(Booking, pk=id)
+
+            notifications = Notification.notifications.filter(target__id=request.user.id).order_by('-created_at')
+            navbar_notifications = notifications.filter(is_viewed=False)
+
+            context = {
+                'view_type': 'payments',
+                'navbar_notifications': navbar_notifications,
+                'media': MEDIA_URL,
+                'notifications': notifications,
+                'payments': booking.payments.all().order_by('payment_time')
+            }
+            return render(request, 'home.html', context)
+
+
+def add_car_image(request, id):
+
+    if request.user.is_authenticated:
+        class NewCarImageForm(ModelForm):
+            class Meta:
+                model = CarImage
+                fields = ()
+        
+        form = NewCarImageForm(request.POST, request.FILES)
+        car = get_object_or_404(Car, pk=id)
+        if form.is_valid():
+            CarImage.images.create(
+                car = car,
+                image = form.files['image']
+            ).save()
+            return redirect('/car_renting/car/%s'%(id))

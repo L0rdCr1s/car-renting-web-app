@@ -19,6 +19,17 @@ class Car(models.Model):
     def __str__(self):
         return self.name
 
+
+class CarImage(models.Model):
+
+    car = models.ForeignKey(Car, related_name="car_images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='cars/images/%Y/%m/%d/')
+
+    images = models.Manager()
+
+    def __str__(self):
+        return self.car.name
+
 class Booking(models.Model):
 
     BOOKING_STATUSES = [
@@ -63,3 +74,14 @@ class BookingHistory(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()
+
+class PaymentRecord(models.Model):
+
+    booking = models.ForeignKey(Booking, related_name='payments', on_delete=models.CASCADE)
+    payer = models.ForeignKey(CustomUser, related_name='payers', on_delete=models.CASCADE)
+    payee = models.ForeignKey(CustomUser, related_name='payees', on_delete=models.CASCADE) 
+    amount = models.CharField(max_length=20)
+    payment_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.amount

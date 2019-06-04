@@ -157,7 +157,7 @@
                     </form>
                 </div>
                 <div class="col-md-5 mb-5">   
-                    <form action="{% url 'profile_update' request.user.userprofile.id %}" method='post'>
+                    <form enctype="multipart/form-data" action="{% url 'profile_update' request.user.userprofile.id %}" method='post'>
 
                         {% if with_status %}
                         <div class="alert {{ alert }} alert-dismissible fade
