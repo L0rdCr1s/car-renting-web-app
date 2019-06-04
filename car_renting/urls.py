@@ -4,6 +4,7 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('home/', views.home, name='home'),
     path('car/<int:id>', views.car_details, name="car_details"),
     path('deletecar/<int:id>', views.delete_car, name="delete_car"),

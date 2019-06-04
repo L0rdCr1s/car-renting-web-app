@@ -1,129 +1,128 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-md navbar-light d-none d-md-flex"
-        id="topbar">
-        <div class="container-fluid">
+<nav class="navbar navbar-expand-md navbar-light d-none d-md-flex"id="topbar">
+  <div class="container-fluid">
 
 
-          <div class="col-auto"></div>
+    <div class="col-auto"></div>
 
-          <div class="col-auto">
-            <!-- User -->
-            <div class="navbar-user">
+    <div class="col-auto">
+      <!-- User -->
+      <div class="navbar-user">
 
-              <!-- Dropdown -->
-              <div class="dropdown mr-4 d-none d-md-flex">
+        <!-- Dropdown -->
+        <div class="dropdown mr-4 d-none d-md-flex">
 
-                <!-- Toggle -->
-                <a href="#" class="text-muted" role="button"
-                  data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false">
-                  {% if navbar_notifications %}
-                      <span class="icon active">
-                  {% else %}
-                      <span class="icon">
-                  {% endif %}
-                  
-                    <i class="fe fe-bell"></i>
-                  </span>
-                </a>
+          <!-- Toggle -->
+          <a href="#" class="text-muted" role="button"
+            data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            {% if navbar_notifications %}
+                <span class="icon active">
+            {% else %}
+                <span class="icon">
+            {% endif %}
+            
+              <i class="fe fe-bell"></i>
+            </span>
+          </a>
 
-                <!-- Menu -->
-                <div class="dropdown-menu dropdown-menu-right
-                  dropdown-menu-card">
-                  <div class="card-header">
-                    <div class="row align-items-center">
-                      <div class="col">
+          <!-- Menu -->
+          <div class="dropdown-menu dropdown-menu-right
+            dropdown-menu-card">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col">
 
-                        <!-- Title -->
-                        <h5 class="card-header-title">
-                          Notifications
-                        </h5>
+                  <!-- Title -->
+                  <h5 class="card-header-title">
+                    Notifications
+                  </h5>
 
+                </div>
+                <div class="col-auto">
+
+                  <!-- Link -->
+                  <a href=" {% url 'notifications' %} " class="small">
+                    View all
+                  </a>
+
+                </div>
+              </div> <!-- / .row -->
+            </div> <!-- / .card-header -->
+            <div class="card-body">
+
+              <!-- List group -->
+              <div class="list-group list-group-flush my--3">
+                {% for notification in navbar_notifications %}
+                  <a class="list-group-item px-0" href="#!">
+
+                    <div class="row">
+                      <div class="col-auto">
+
+                        <!-- Avatar -->
+                        <div class="avatar avatar-sm">
+                          <img src="{{ media }}{{ notification.source.userprofile.profile_image }}"
+                            alt="..." class="avatar-img rounded-circle">
+                        </div>
+
+                      </div>
+                      <div class="col ml--2">
+                        
+                        <!-- Content -->
+                        <div class="small text-muted">
+                          
+                            <strong class="text-body">
+                              {{ notification.source.first_name }} {{ notification.source.last_name}}
+                            </strong>
+                          
+                            {{ notification.message }} 
+                        </div>
+                        <small class="text-muted">
+                          <span class="fe fe-watch"></span> {{ notification.created_at }}
+                        </small>
                       </div>
                       <div class="col-auto">
 
-                        <!-- Link -->
-                        <a href=" {% url 'notifications' %} " class="small">
-                          View all
-                        </a>
+                        
 
                       </div>
                     </div> <!-- / .row -->
-                  </div> <!-- / .card-header -->
-                  <div class="card-body">
 
-                    <!-- List group -->
-                    <div class="list-group list-group-flush my--3">
-                      {% for notification in navbar_notifications %}
-                        <a class="list-group-item px-0" href="#!">
-
-                          <div class="row">
-                            <div class="col-auto">
-
-                              <!-- Avatar -->
-                              <div class="avatar avatar-sm">
-                                <img src="{{ media }}{{ notification.source.userprofile.profile_image }}"
-                                  alt="..." class="avatar-img rounded-circle">
-                              </div>
-
-                            </div>
-                            <div class="col ml--2">
-                              
-                              <!-- Content -->
-                              <div class="small text-muted">
-                                
-                                  <strong class="text-body">
-                                    {{ notification.source.first_name }} {{ notification.source.last_name}}
-                                  </strong>
-                                
-                                  {{ notification.message }} 
-                              </div>
-                              <small class="text-muted">
-                                <span class="fe fe-watch"></span> {{ notification.created_at }}
-                              </small>
-                            </div>
-                            <div class="col-auto">
-
-                              
-
-                            </div>
-                          </div> <!-- / .row -->
-
-                        </a>
-                      {% endfor %}
-                      
-                    </div>
-
-                  </div>
-                </div> <!-- / .dropdown-menu -->
-
-              </div>
-
-              <!-- Dropdown -->
-              <div class="dropdown">
-
-                <!-- Toggle -->
-                <a href="#" class="avatar avatar-sm
-                  dropdown-toggle" role="button" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <img src="{{ media }}{{request.user.userprofile.profile_image}}" alt="..."
-                    class="avatar-img rounded-circle">
-                </a>
-
-                <!-- Menu -->
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a href="{% url 'user_profile' user.id '0' %}" class="dropdown-item">Profile</a>
-                  <a href="settings.html" class="dropdown-item">Settings</a>
-                  <hr class="dropdown-divider">
-                  <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-                </div>
-
+                  </a>
+                {% endfor %}
+                
               </div>
 
             </div>
+          </div> <!-- / .dropdown-menu -->
 
+        </div>
+
+        <!-- Dropdown -->
+        <div class="dropdown">
+
+          <!-- Toggle -->
+          <a href="#" class="avatar avatar-sm
+            dropdown-toggle" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img src="{{ media }}{{request.user.userprofile.profile_image}}" alt="..."
+              class="avatar-img rounded-circle">
+          </a>
+
+          <!-- Menu -->
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="{% url 'user_profile' user.id '0' %}" class="dropdown-item">Profile</a>
+            <a href="settings.html" class="dropdown-item">Settings</a>
+            <hr class="dropdown-divider">
+            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
           </div>
 
         </div>
-      </nav>
+
+      </div>
+
+    </div>
+
+  </div>
+</nav>

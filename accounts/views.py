@@ -120,9 +120,43 @@ def settings(request):
                 'navbar_notifications': navbar_notifications,
 
                 'media': MEDIA_URL,
-                'static_url': STATIC_URL
+                'static_url': STATIC_URL,
+                'form': forms.UserProfileUpdateForm
             }
             return render(request, 'home.html', context)
 
         elif request.method == "POST":
-            pass
+            form = forms.UserUpdateForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return redirect('/settings')
+            else:
+                return redirect('/settings')
+    else:
+        return redirect('/login')
+
+
+def update_password(request, id):
+
+    if request.method == "POST":
+        user = get_object_or_404(CustomUser, pk=id)
+        form = forms.Newpassword(request.POST, instance=user)
+        if form.is_valid():
+            user.set_password(form.cleaned_data['password2'])
+            user.save()
+            return redirect('/settings')
+        else:
+            return redirect('/settings')
+
+
+def update_profile(request, id):
+
+    if request.method == "POST":
+        profile = get_object_or_404(UserProfile, pk=id)
+        form = forms.UserProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('/settings')
+        else:
+            print(form.data)
+            return redirect('/settings')

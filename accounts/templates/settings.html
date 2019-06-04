@@ -1,0 +1,227 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+
+            <!-- Header -->
+            <div class="header mt-md-5">
+                <div class="header-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Pretitle -->
+                            <h6 class="header-pretitle">
+                                {{ request.user.email }}
+                            </h6>
+
+                            <!-- Title -->
+                            <h1 class="header-title">
+                                Profile Settings
+                            </h1>
+
+                        </div>
+                    </div> <!-- / .row -->
+                    <div class="row align-items-center">
+                        <div class="col">
+
+                            <!-- Nav -->
+                            <ul class="nav nav-tabs nav-overflow header-tabs">
+                                <li class="nav-item">
+                                    <a href="#!" class="nav-link active">
+                                        General
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-between p-5">
+                <div class="col-md-5 mb-5">
+                    <form action='#' method='post'>
+
+                        {% if with_status %}
+                        <div class="alert {{ alert }} alert-dismissible fade
+                            show" role="alert">
+                            <strong>{{ title }}</strong> {{ info }}
+                            <button type="button" class="close"
+                                data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        {% endif %}
+
+                        {% csrf_token %}
+                        <!-- Email address -->
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Email Address
+                            </label>
+                            <!-- Input -->
+                            <input type="email" name="email" maxlength="254"
+                                required=""
+                                id="id_email" class="form-control" value="{{ request.user.email }}"
+                                placeholder="name@address.com">
+                        </div>
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                First name
+                            </label>
+                            <!-- Input -->
+                            <input type="text" name="first_name" maxlength="60"
+                                required="" value="{{ request.user.first_name }}"
+                                id="id_first_name" class="form-control"
+                                placeholder="first name">
+                        </div>
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Last name
+                            </label>
+                            <!-- Input -->
+                            <input type="text" name="last_name" maxlength="60"
+                                required="" value="{{ request.user.last_name }}"
+                                id="id_last_name" class="form-control"
+                                placeholder="last name">
+                        </div>
+                        <!-- Submit -->
+                        <button class="btn btn-lg btn-block btn-dark mb-3">
+                            update info
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-5 mb-5">
+                    <form action="{% url 'password_update' request.user.id %}" method='post'>
+
+                        {% if with_status %}
+                        <div class="alert {{ alert }} alert-dismissible fade
+                            show" role="alert">
+                            <strong>{{ title }}</strong> {{ info }}
+                            <button type="button" class="close"
+                                data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        {% endif %}
+
+                        {% csrf_token %}
+                        <!-- Email address -->
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                New Password
+                            </label>
+                            <!-- Input group -->
+                            <div class="input-group input-group-merge">
+                                <!-- Input -->
+                                <input type="password" name="password1"
+                                    required=""
+                                    id="id_password1" class="form-control
+                                    form-control-appended" placeholder="Enter your password">
+                                <!-- Icon -->
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fe fe-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Confirm Password
+                            </label>
+                            <!-- Input group -->
+                            <div class="input-group input-group-merge">
+                                <!-- Input -->
+                                <input type="password" name="password2"
+                                    required=""
+                                    id="id_password2" class="form-control
+                                    form-control-appended" placeholder="Confirm
+                                    your password">
+                                <!-- Icon -->
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fe fe-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Submit -->
+                        <button class="btn btn-lg btn-block btn-dark mb-3">
+                            Change Password
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-5 mb-5">   
+                    <form action="{% url 'profile_update' request.user.userprofile.id %}" method='post'>
+
+                        {% if with_status %}
+                        <div class="alert {{ alert }} alert-dismissible fade
+                            show" role="alert">
+                            <strong>{{ title }}</strong> {{ info }}
+                            <button type="button" class="close"
+                                data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        {% endif %}
+
+                        {% csrf_token %}
+
+                        <!-- Email address -->
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Location
+                            </label>
+                            <!-- Input -->
+                            <input type="text" name="location" maxlength="255" required="" id="id_location"
+                             class="form-control" value="{{ request.user.userprofile.location }}"
+                                placeholder="location">
+                        </div>
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Date of Birth
+                            </label>
+                            <!-- Input -->
+                            <input type="text" name="date_of_birth" maxlength="60"
+                                required="" value="{{ request.user.userprofile.date_of_birth|date:'Y-m-d' }}"
+                                id="id_date_of_birth" class="form-control"
+                                placeholder="year-month-date">
+                        </div>
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Mobile Contact
+                            </label>
+                            <!-- Input -->
+                            <input type="text" name="mobile_contact" maxlength="255" required="" id="id_mobile_contact"
+                                value="{{ request.user.userprofile.mobile_contact }}" class="form-control" placeholder="(+255)-xxx-xxx-xxx">
+                        </div>
+                       <div class="col-12 mb-3">
+                            <!-- First name -->
+                            <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                                Cover Photo
+                            </label>
+                            <!-- Input -->
+                            <input type="file" class="form-control" style="border: none; background: transparent;"
+                                name="profile_image" accept="image/*" id="id_profile_image">
+                            </div>
+                        </div>
+                        <!-- Submit -->
+                        <button class="btn btn-lg btn-block btn-dark mb-3">
+                            update info
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
