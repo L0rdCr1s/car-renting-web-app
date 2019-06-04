@@ -118,12 +118,3 @@ class NewCarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = ()
-
-    def save(self, user_id, commit=True):
-        car = super(NewCarForm, self).save(commit=False)
-        owner = CustomUser.users.get(pk=user_id)
-        car.user = owner
-        
-        if commit:
-            car.save()
-        return car

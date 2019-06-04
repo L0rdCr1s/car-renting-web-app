@@ -63,7 +63,7 @@
                     <a href="{% url 'delete_car' car.id %}" class="btn btn-sm btn-danger mt-3">
                         <span class="fe fe-trash-2 text-white mr-2"></span>delete
                     </a>
-                    <a href="#!" class="btn btn-sm btn-primary mt-3">
+                    <a href="#!" class="btn btn-sm btn-primary mt-3" data-toggle="modal" data-target="#modalEditCar">
                         <span class="fe fe-settings text-white mr-2"></span>edit info
                     </a>
                     {% if car.is_available %}
@@ -100,4 +100,119 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="modalEditCar" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-card card" data-toggle="lists" data-lists-values="[&quot;name&quot;]">
+            <div class="card-header">
+            <h3>Add new car</h3>
+            </div>
+            
+            <div class="card-body">
+                <form class="mb-4" enctype="multipart/form-data" action="#" method="post" novalidate="">
+                    {% csrf_token %}
+                    <div class="row">
+                    <div class="col-12 mb-3">
+                        <!-- First name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Cover Photo
+                        </label>
+                        <!-- Input -->
+                        <input type="file" class="form-control" style="border: none" value="{{ car.cover_image }}"
+                            name="cover_image" accept="image/*" required="" id="id_cover_image">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <!-- First name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Car name
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control" 
+                            name="name" maxlength="255" required="" id="id_name" value="{{ car.name }}">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <!-- Last name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Car Plate number
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control mixed" placeholder="AAA-111" value="{{ car.plate_number }}"
+                            name="plate_number" maxlength="8" required="" id="id_plate_number">
+                        <script>   </script>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Availability
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control mb-3" placeholder="00:00-00:00  in 24 hours" data-mask="00:00-00:00"
+                            autocomplete="off" maxlength="14" name="availability" required="" value="{{ car.availability }}" id="id_availability">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Price
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control mb-3" placeholder="00:00-00:00  in 24 hours" data-mask="0,000,000"
+                            autocomplete="off" maxlength="14" name="price" required="" value="{{ car.price }}" id="id_price">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <!-- First name -->
+                        <div class="form-group">
+                        <!-- Label -->
+                        <label>
+                            Location
+                        </label>
+                        <!-- Input -->
+                        <input type="text" class="form-control" name="location" maxlength="255" 
+                        required="" id="id_location" value="{{ car.location }}">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <!-- First name -->
+                        <div class="form-group">
+                            <!-- Label -->
+                            <label>
+                            Short description
+                            </label>
+                            <!-- Input -->
+                            <input type="text" class="form-control form-control-flush" name="description" maxlength="300" 
+                            required="" id="id_description" value="{{ car.description }}"
+                            placeholder="Describe your service here with not more than 400 characters">
+                        </div>
+                        </div>
+
+                        
+
+                        <button type="submit" class="btn btn-sm btn-success m-3">
+                            <span class="fe fe-save mr-2"></span> update car
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning text-white mt-3 mb-3" data-dismiss="modal">
+                            <span class="fe fe-x-square mr-2"></span> cancel
+                        </button>
+                    
+                    </div> <!-- / .row -->
+                </form>
+
+            </div>
+        </div>
+        </div>
+    </div>
 </div>

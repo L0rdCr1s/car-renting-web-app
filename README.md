@@ -1,3 +1,2 @@
-# Online car renting sytem
+### Setting up the project
 
-An online car renting system, developed with python django

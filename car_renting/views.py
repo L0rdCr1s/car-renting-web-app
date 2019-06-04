@@ -1,10 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import CustomUser, UserProfile
 from car_renting.models import Car, Booking, Notification, BookingHistory
-from django.conf import settings
 from django.http import HttpResponseNotFound
 import random
 from accounts.forms import NewCarForm
+from django.forms import ModelForm
+
+# this variable is created due to an error that settings has no 
+# variable static url, (setting has a variable called STATIC_URL though)
+# for some reasons i did not have time to fix this is the teporary fix
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
 
 def home(request):
 
@@ -19,8 +26,8 @@ def home(request):
 
         context = {
             'user': request.user,
-            'static_url' : settings.STATIC_URL,
-            'media': settings.MEDIA_URL,
+            'static_url' : STATIC_URL,
+            'media': MEDIA_URL,
             'view_type': 'home',
             'navbar_notifications': navbar_notifications,
             'cars': cars
@@ -31,6 +38,12 @@ def home(request):
 
 
 def car_details(request, id):
+
+    class UpdateCarForm(ModelForm):
+        class Meta:
+            model = Car
+            fields = ()
+
     if request.user.is_authenticated:
 
         # car information
@@ -48,11 +61,35 @@ def car_details(request, id):
 
         context = {
             'car': car,
-            'media': settings.MEDIA_URL,
+            'media': MEDIA_URL,
             'view_type': 'car_details',
             'navbar_notifications': navbar_notifications,
             'user_has_booked_it': user_has_booked_it
         }
+
+        if request.method == "POST":
+            form = UpdateCarForm(request.POST, request.FILES)
+            if form.is_valid():
+                # try:
+                #     cover_image = form.files['cover_image']
+                # except MultiValueDictKeyError:
+                #     cover_image = car.cover_image
+
+                if 'cover_image' in request.POST:
+                    cover_image = car.cover_image
+                else:
+                    cover_image = form.files['cover_image']
+                
+                # updating car info
+                car.name = form.data['name']
+                car.plate_number = form.data['plate_number']
+                car.availability = form.data['availability']
+                car.price = form.data['price']
+                car.location = form.data['location']
+                car.description = form.data['description']
+                car.cover_image = cover_image
+                car.save()
+
         
         return render(request, 'home.html', context)
     else:
@@ -84,7 +121,7 @@ def delete_car(request, id):
     
     context = {
         'car': car,
-        'media': settings.MEDIA_URL,
+        'media': MEDIA_URL,
         'navbar_notifications': navbar_notifications,
         'view_type': 'home'
         }
@@ -180,7 +217,7 @@ def get_notifications(request):
         context = {
             'view_type': 'notifications',
             'navbar_notifications': navbar_notifications,
-            'media': settings.MEDIA_URL,
+            'media': MEDIA_URL,
             'notifications': notifications,
         }
         return render(request, 'home.html', context)
@@ -211,6 +248,11 @@ def reply_booking(request, id, action):
                             )
                     booking_history.save()
                     notification.save()
+
+                    # adding number of cars this user has ever booked
+                    notification.booking.booking_user.userprofile.booked_cars += 1
+                    notification.booking.booking_user.userprofile.save()
+
 
                 elif action == 0:
                     message = "%s has rejected your request for %s"%(request.user.get_full_name(), notification.booking.car.name)
@@ -266,7 +308,7 @@ def get_user_profile(request, id, section_type):
         context = {
             'view_type': 'profile',
             'navbar_notifications': navbar_notifications,
-            'media': settings.MEDIA_URL,
+            'media': MEDIA_URL,
             'notifications': notifications,
             'user': user,
             'user_bookings': user_bookings,
@@ -292,7 +334,7 @@ def show_my_account(request, section_type):
         context = {
             'view_type': 'account',
             'navbar_notifications': navbar_notifications,
-            'media': settings.MEDIA_URL,
+            'media': MEDIA_URL,
             'notifications': notifications,
             'user_bookings': user_bookings,
             'user_vehicles': user_vehicles,
@@ -303,9 +345,22 @@ def show_my_account(request, section_type):
         if request.method == 'GET':
             return render(request, 'home.html', context)
         else:
-            form = NewCarForm(request.POST)
+            form = NewCarForm(request.POST, request.FILES)
             if form.is_valid():
-                form.save(request.user.id)
+                Car.cars.create(
+                    user = request.user,
+                    name = form.data['name'],
+                    plate_number = form.data['plate_number'],
+                    availability = form.data['availability'],
+                    price = form.data['price'],
+                    location = form.data['location'],
+                    description = form.data['description'],
+                    cover_image = form.files['cover_image'],
+                ).save()
+
+                # adding number of cars a user owns 
+                request.user.userprofile.owned_cars += 1
+                request.user.userprofile.save()
 
                 context.update( {
                     # return with an error

@@ -14,4 +14,5 @@ urlpatterns = [
     path('replybooking/<int:id>/<int:action>', views.reply_booking, name='reply_booking'),
     path('userprofile/<int:id>/<int:section_type>', views.get_user_profile, name="user_profile"),
     path('account/<int:section_type>', views.show_my_account, name='account'),
+    # path('update/<int:id>', views.update_car_info, name='update_car_info'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

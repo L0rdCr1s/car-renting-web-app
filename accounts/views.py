@@ -4,8 +4,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, views
 from .models import *
 from django.contrib.auth import logout
-from django.conf import settings
 from car_renting.models import Notification
+
+
+# this variable is created due to an error that settings has no 
+# variable static url, (setting has a variable called STATIC_URL though)
+# for some reasons i did not have time to fix this is the teporary fix
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
 
 def user_login(request):
     fresh_form = forms.LoginForm()
@@ -25,7 +32,7 @@ def user_login(request):
                         'with_status' : True,
                         'title': 'Failed!!',
                         'info' : 'account disabled',
-                        'static_url': settings.STATIC_URL,
+                        'static_url': STATIC_URL,
                         'alert': 'alert-danger'
                     }
                     return render(request, 'login.html', context)
@@ -34,7 +41,7 @@ def user_login(request):
                     'with_status' : True,
                     'title': 'Failed!!',
                     'info' : 'invalid user name or password',
-                    'static_url': settings.STATIC_URL,
+                    'static_url': STATIC_URL,
                     'alert': 'alert-danger'
                 }
                 return render(request, 'login.html', context)
@@ -43,12 +50,12 @@ def user_login(request):
                 'with_status' : True,
                 'title': 'Failed!!',
                 'info' : 'invaild data provided',
-                'static_url': settings.STATIC_URL,
+                'static_url': STATIC_URL,
                 'alert': 'alert-danger'
             }
             return render(request, 'login.html', context)
     else:
-        static_url = settings.STATIC_URL
+        static_url = STATIC_URL
 
         # if user is authenticated bypass the login page
         if request.user.is_authenticated:
@@ -82,7 +89,7 @@ def user_registration(request):
                 'title': 'Success',
                 'info' : 'you have successfully registered',
                 'alert': 'alert-success',
-                'static_url': settings.STATIC_URL
+                'static_url': STATIC_URL
             }
             return render(request, 'Registration/register.html', context)
         else:
@@ -90,13 +97,13 @@ def user_registration(request):
                 'with_status' : True,
                 'title': 'Failed',
                 'info' : 'Invalid data provided, please check your input',
-                'static_url': settings.STATIC_URL,
+                'static_url': STATIC_URL,
                 'alert': 'alert-danger'
             }
             return render(request, 'Registration/register.html', context)
     else:
         form = forms.RegisterForm()
-        static_url = settings.STATIC_URL
+        static_url = STATIC_URL
         return render(request, 'Registration/register.html', {"form": form, 'static_url': static_url})
 
 
@@ -112,11 +119,8 @@ def settings(request):
                 'view_type': 'settings',
                 'navbar_notifications': navbar_notifications,
 
-                # these two settings variables are hard coded because due to some
-                # an uknown error settings is detected as a function with no attributes 
-                # MEDIA_URL nor STATIC_URL, fix it if you have time, i'm sleepy at the time of this writting
-                'media': 'media/',
-                'static_url': 'static/'
+                'media': MEDIA_URL,
+                'static_url': STATIC_URL
             }
             return render(request, 'home.html', context)
 
