@@ -13,7 +13,7 @@ SECRET_KEY = '7p9v$nuiocww9y@4kyv7+-0o2)6ejju%k^(^i3z8@k6ooaxi1q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', ]
 
 
 # Application definition
@@ -21,6 +21,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'car_renting',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,6 +31,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
+     # to allow interaction with this api from cross origin sources
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
