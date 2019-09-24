@@ -45,6 +45,7 @@ class Booking(models.Model):
     booked_at = models.DateTimeField(auto_now_add=True)
 
     bookings = models.Manager()
+ 
 
     def __str__(self):
         return self.car.name

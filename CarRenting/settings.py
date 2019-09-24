@@ -75,7 +75,7 @@ DATABASES = {
         },
         'NAME': 'car_renting',
         'USER': 'car_renting_admin',
-        'PASSWORD': '4UT030T',
+        'PASSWORD': 'secret',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -148,5 +148,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'rallytanzaniaemailhost@gmail.com'
-EMAIL_HOST_PASSWORD = '4uT030T_minia'
+EMAIL_HOST_USER = 'example@email.com'
+EMAIL_HOST_PASSWORD = 'secret'
